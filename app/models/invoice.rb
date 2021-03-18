@@ -12,7 +12,6 @@ class Invoice < ApplicationRecord
 
   def check_paid
     return True unless !@invoice.paid
-    end
   end
 
   def send_email
