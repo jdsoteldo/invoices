@@ -1,5 +1,7 @@
 class Invoice < ApplicationRecord
 
+  belongs_to :user
+
   def send_confirmation
     if check_paid
       send_email

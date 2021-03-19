@@ -1,0 +1,8 @@
+<% if @invoices %>
+  <% @invoices.each do |invoice| %>
+    <%= link_to invoice.title, user_invoice_path(current_user, invoice.id) %>
+  <% end %>
+<% else %>
+  <%= @invoices %>
+  no invoices bitch
+<% end %>
