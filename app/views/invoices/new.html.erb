@@ -1,5 +1,5 @@
 <div class="w-50 m-auto">
-  <%= form_for @invoice do |f| %>
+  <%= form_for [current_user, @invoice] do |f| %>
   <div class='form-group'>
     <%= f.label :title %>
     <%= f.text_field :title, class: 'form-control' %>
@@ -23,8 +23,7 @@
     <%= f.check_box :paid, { class: 'form-check-input' } %>
     <%= f.label :paid %>
   </div>
-  
+
   <%= f.submit nil, class: 'btn btn-primary' %>
   <% end %>
 </div>
-    

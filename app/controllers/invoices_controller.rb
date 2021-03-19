@@ -1,5 +1,7 @@
 class InvoicesController < ApplicationController
+
   def index
+    @invoices = current_user.invoices
   end
 
   def show
@@ -9,11 +11,12 @@ class InvoicesController < ApplicationController
   def new
     @invoice = Invoice.new
   end
-  
+
   def create
-    @invoice = Invoice.new(invoice_params) 
+    @invoice = Invoice.new(invoice_params)
+    @invoice.user = current_user
     if @invoice.save
-      redirect_to invoice_path(@invoice)
+      redirect_to user_invoice_path(current_user, @invoice)
     else
       render :new
     end
@@ -21,7 +24,8 @@ class InvoicesController < ApplicationController
 
   private
 
-    def invoice_params
-      params.require(:invoice).permit(:title, :services, :payer_name, :payer_email, :paid)
-    end
+  def invoice_params
+    params.require(:invoice).permit(:title, :services, :payer_name, :payer_email, :paid, :price)
+  end
+
 end
