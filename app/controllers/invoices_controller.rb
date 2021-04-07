@@ -1,7 +1,12 @@
 class InvoicesController < ApplicationController
+  skip_before_action :verify_authenticity_token
 
   def index
-    @invoices = current_user.invoices
+    if !current_user
+      redirect_to new_user_session_path
+    else
+      @invoices = current_user.invoices
+    end
   end
 
   def show
