@@ -1,0 +1,23 @@
+#footer {
+  position: absolute;
+  bottom: 0%;
+  width: 100%;
+  background-color: #34495e;
+  padding-top: 5vh;
+  padding-bottom: 5vh;
+  margin-top: 7vh;
+}
+
+.footer-text {
+  text-align: center;
+  color: #ecf0f1;
+}
+
+.jmdev {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.jmdev:hover {
+  color: #dff9fb;
+}

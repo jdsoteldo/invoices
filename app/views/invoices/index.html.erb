@@ -1,7 +1,50 @@
-<% if @invoices %>
-  <% @invoices.each do |invoice| %>
-    <%= link_to invoice.title, user_invoice_path(current_user, invoice.id) %>
-  <% end %>
-<% else %>
-  no invoices bitch
-<% end %>
+<table class="table table-dark">
+  <thead>
+    <tr>
+      <th scope="col">Title</th>
+      <th>Paid</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <% if @invoices %>
+        <% @invoices.each do |invoice| %>
+        <tr>
+          <td><%= link_to invoice.title, user_invoice_path(current_user, invoice.id), class: "td-link" %></td>
+          <td><%= invoice.paid.to_s.capitalize %></td>
+        </tr>
+        <% end %>
+      <% else %>
+        no invoices bitch
+      <% end %>
+    </tr>
+  </tbody>
+</table>
+
+
+<!-- le puse un style todo animal pq esta vaina no agarraba los estilos y queria ver como se veia, ya lo arreglo -->
+<style media="screen">
+
+.table-dark {
+  width: 70%;
+  margin: auto;
+  margin-top: 10vh;
+}
+
+.td-link {
+  color: #fff;
+}
+
+.td-link:hover {
+  color: #dff9fb;
+  text-decoration: line-through;
+}
+
+@media(max-width: 400px){
+  .table-dark {
+    width: 85%;
+    margin: auto;
+    margin-top: 5vh;
+  }
+}
+</style>
