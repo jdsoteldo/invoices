@@ -1,1 +1,7 @@
-gay
+<%= form_for @business do |f| %>
+  <%= f.text_field :biz_name, required: true %>
+  <%= f.text_field :biz_email, required: true %>
+  <%= f.text_field :biz_website, required: false %>
+  <%= f.text_field :biz_type, required: true %>
+  <%= f.submit %>
+<% end %>
