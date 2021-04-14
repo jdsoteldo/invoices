@@ -1,1 +1,7 @@
-show
+<% if @businesses %>
+  <% @businesses.each do |b| %>
+    <%= b.biz_name %>
+  <% end %>
+<% else %>
+  no hay vida
+<% end %>

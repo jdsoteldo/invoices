@@ -14,8 +14,13 @@ class BusinessesController < ApplicationController
 
   def create
     @business = Business.new(biz_params)
+    @user = current_user
     @business.save
-    redirect_to business_path(current_user, @business)
+    if @business.save
+      redirect_to user_business_path(@user, @business)
+    else
+      render :new
+    end
   end
 
   def show
@@ -29,7 +34,7 @@ class BusinessesController < ApplicationController
   private
 
   def biz_params
-    params.require(:business).permit(:biz_name, :biz_website, :biz_type, :biz_email)
+    params.require(:business).permit(:user_id, :biz_name, :biz_website, :biz_type, :biz_email)
   end
 
 end
