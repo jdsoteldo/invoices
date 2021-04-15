@@ -1,5 +1,5 @@
 <div class="w-50 m-auto">
-  <%= form_for [current_user, @invoice] do |f| %>
+  <%= form_for [@business, @invoice] do |f| %>
   <div class='form-group'>
     <%= f.label :title %>
     <%= f.text_field :title, class: 'form-control' %>
