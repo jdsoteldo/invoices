@@ -1,4 +1,5 @@
 class InvoicesController < ApplicationController
+  before_action :current_biz
   skip_before_action :verify_authenticity_token
 
   def index
@@ -14,24 +15,38 @@ class InvoicesController < ApplicationController
   end
 
   def new
-    @invoice = Invoice.new
-    @business = Business.find_by(id: params[:business_id])
+    build_invoice 
   end
 
   def create
-    @invoice = Invoice.new(invoice_params)
-    @invoice.save
-    if @invoice.save
-      redirect_to business_invoice_path(@business, @invoice)
-    else
-      render :new
-    end
+    build_invoice
+    save_invoice or render :new
   end
 
   private
+    
+    def current_biz
+      @biz = Business.find_by(id: params[:business_id])
+    end
 
-  def invoice_params
-    params.require(:invoice).permit(:title, :services, :payer_name, :payer_email, :paid, :price, :business_id)
-  end
+    def invoice_params
+      invoice_params = params[:invoice]
+      invoice_params ? invoice_params.permit(:title, :services, :payer_name, :payer_email, :paid, :price, :business_id) : {}
+    end
+
+    def build_invoice
+      @invoice ||= invoice_scope.build
+      @invoice.attributes = invoice_params
+    end
+    
+    def save_invoice
+      if @invoice.save
+        redirect_to business_invoice_path(@biz, @invoice)
+      end
+    end
+
+    def invoice_scope
+      @biz.invoices
+    end
 
 end

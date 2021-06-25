@@ -1,13 +1,22 @@
 <div class="w-50 m-auto">
-  <%= form_for [@business, @invoice] do |f| %>
+  <button onClick='addServices()'>Add Services</button>
+  <%= form_for [@biz, @invoice] do |f| %>
+
   <div class='form-group'>
     <%= f.label :title %>
     <%= f.text_field :title, class: 'form-control' %>
   </div>
-  <div class='form-group'>
-    <%= f.label :services %>
-    <%= f.text_field :services, class: 'form-control' %>
-  </div>
+  <div class='row services-row'>
+    <div class='col-8'>    
+      <%= f.label :services %>
+      <%= f.text_field :services, class: 'form-control' %>
+    </div>
+    <div class='col-4'>    
+      <%= f.label :price %>
+      <%= f.number_field :price, class: 'form-control service-price', onblur: 'addValues()', value: 0 %>
+    </div>
+    
+ </div>
   <div class='form-group'>
     <%= f.label :payer_name %>
     <%= f.text_field :payer_name, class: 'form-control' %>
@@ -15,15 +24,61 @@
   <div class='form-group'>
     <%= f.label :payer_email %>
     <%= f.text_field :payer_email, class: 'form-control' %>
-  </div><div class='form-group'>
-    <%= f.label :price %>
-    <%= f.number_field :price, class: 'form-control' %>
   </div>
   <div class="form-check">
     <%= f.check_box :paid, { class: 'form-check-input' } %>
     <%= f.label :paid %>
   </div>
+  <div class='row'>
+    Total: 
+    <span class='total'>
+    </span>
+  </div>
 
   <%= f.submit class: 'btn btn-primary' %>
   <% end %>
 </div>
+
+  <script>
+    
+    function addValues(){
+      let value = [...document.querySelectorAll('.service-price')].map(i => i.value).reduce((accumulator, currentValue) => parseFloat(accumulator) + parseFloat(currentValue))
+      document.querySelector('.total').innerText = value
+    }
+
+function addServices() {
+  let priceField = document.createElement('input')
+  priceField.type = 'number'
+  priceField.setAttribute('class', 'form-control service-price')
+  priceField.value = 0
+  priceField.onblur = addValues
+
+  let priceLabel = document.createElement('label')
+  priceLabel.htmlFor = 'invoice_price'
+  priceLabel.innerText = 'Price'
+
+  let col4 = document.createElement('div')
+  col4.setAttribute('class', 'col-4')
+
+  col4.appendChild(priceLabel) 
+  col4.appendChild(priceField) 
+
+  let serviceField = document.createElement('input')
+  serviceField.type = 'text'
+  serviceField.setAttribute('class', 'form-control')
+
+  let serviceLabel = document.createElement('label')
+  serviceLabel.htmlFor = 'invoice_services'
+  serviceLabel.innerText = 'Services'
+
+  let col8 = document.createElement('div')
+  col8.setAttribute('class', 'col-8')
+
+  col8.appendChild(serviceLabel) 
+  col8.appendChild(serviceField) 
+
+  document.querySelector('.services-row').appendChild(col8)
+  document.querySelector('.services-row').appendChild(col4)
+}
+  
+  </script>

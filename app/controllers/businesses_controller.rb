@@ -13,14 +13,8 @@ class BusinessesController < ApplicationController
   end
 
   def create
-    @business = Business.new(biz_params)
-    @business.user = current_user
-    @business.save
-    if @business.save
-      redirect_to user_business_path(@business.user, @business)
-    else
-      render :new
-    end
+    build_biz
+    save_biz or render :new
   end
 
   def show
@@ -33,8 +27,23 @@ class BusinessesController < ApplicationController
 
   private
 
-  def biz_params
-    params.require(:business).permit(:name, :website, :biz_type, :email)
-  end
+    def biz_params
+      biz_params = params[:business]
+      biz_params ? biz_params.permit(:name, :website, :biz_type, :email): {}
+    end
 
+    def build_biz
+      @biz ||= biz_scope.build
+      @biz.attributes = biz_params
+    end
+    
+    def save_biz
+      if @biz.save
+        redirect_to @biz
+      end
+    end
+
+    def biz_scope
+      current_user.businesses
+    end
 end
