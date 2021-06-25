@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
-  root to: "invoices#index"
+  root to: "businesses#index"
 
   resources :users do
     resources :businesses
